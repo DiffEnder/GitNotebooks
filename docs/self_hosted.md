@@ -43,6 +43,12 @@ We'll assume that you have enough permission to create a new GitHub app and a Po
 
 If you have not yet received the GitNotebooks container image, you can do so by filling out this form: [Self-hosted signup](https://share.hsforms.com/1KcFTS0dHRPqyMli5Dr8kiwryqe1)
 
+<div class="warning">
+
+This is a multi-platform container image. So if you're pulling the image onto a machine with a different architecture than the one used in the deployment (e.g. to mirror the image to your own container registy), take care to make sure the correct platform is used when pulling the image, otherwise you will run into a `exec format error`.
+
+</div>
+
 ## Choosing an Endpoint { #choosing-an-endpoint }
 
 The GitNotebooks web application needs to be accessible via a URL. This URL will be referred to as the `BASE_URL` throughout the setup process. You'll need to decide on this `BASE_URL` before proceeding.
