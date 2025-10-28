@@ -48,6 +48,8 @@ If you have not yet received the GitNotebooks container image, you can do so by 
 This is a multi-platform container image. So if you're pulling the image onto a machine with a different architecture than the one used in the deployment (e.g. to mirror the image to your own container registy), take care to make sure the correct platform is used when pulling the image, otherwise you will run into a `exec format error`.
 
 ```bash
+# Example command to mirror image version 1.3.5 to a private container registry.
+
 # linux/arm64
 skopeo copy \
   --src-creds "$SRC_USER:$SRC_PASS" \
