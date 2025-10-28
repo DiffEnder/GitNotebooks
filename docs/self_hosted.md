@@ -47,6 +47,26 @@ If you have not yet received the GitNotebooks container image, you can do so by 
 
 This is a multi-platform container image. So if you're pulling the image onto a machine with a different architecture than the one used in the deployment (e.g. to mirror the image to your own container registy), take care to make sure the correct platform is used when pulling the image, otherwise you will run into a `exec format error`.
 
+```bash
+# linux/arm64
+skopeo copy \
+  --src-creds "$SRC_USER:$SRC_PASS" \
+  --dest-creds "$DEST_USER:$DEST_PASS" \
+  --override-os=linux \
+  --override-arch=arm64 \
+  docker://docker.io/gitnotebooks/self-hosted:1.3.5 \
+  docker://registry.example.com/gitnotebooks/self-hosted:1.3.5-arm64
+
+# linux/amd64
+skopeo copy \
+  --src-creds "$SRC_USER:$SRC_PASS" \
+  --dest-creds "$DEST_USER:$DEST_PASS" \
+  --override-os=linux \
+  --override-arch=amd64 \
+  docker://docker.io/gitnotebooks/self-hosted:1.3.5 \
+  docker://registry.example.com/gitnotebooks/self-hosted:1.3.5-amd64
+```
+
 </div>
 
 ## Choosing an Endpoint { #choosing-an-endpoint }
