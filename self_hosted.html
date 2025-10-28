@@ -210,6 +210,24 @@ LICENSE_KEY=eg7d1aba4ddb88f2ec16711d96a25d0c03
 <p>If you have not yet received the GitNotebooks container image, you can do so by filling out this form: <a href="https://share.hsforms.com/1KcFTS0dHRPqyMli5Dr8kiwryqe1">Self-hosted signup</a></p>
 <div class="warning">
 <p>This is a multi-platform container image. So if you're pulling the image onto a machine with a different architecture than the one used in the deployment (e.g. to mirror the image to your own container registy), take care to make sure the correct platform is used when pulling the image, otherwise you will run into a <code>exec format error</code>.</p>
+<pre><code class="language-bash"># linux/arm64
+skopeo copy \
+  --src-creds "$SRC_USER:$SRC_PASS" \
+  --dest-creds "$DEST_USER:$DEST_PASS" \
+  --override-os=linux \
+  --override-arch=arm64 \
+  docker://docker.io/gitnotebooks/self-hosted:1.3.5 \
+  docker://registry.example.com/gitnotebooks/self-hosted:1.3.5-arm64
+
+# linux/amd64
+skopeo copy \
+  --src-creds "$SRC_USER:$SRC_PASS" \
+  --dest-creds "$DEST_USER:$DEST_PASS" \
+  --override-os=linux \
+  --override-arch=amd64 \
+  docker://docker.io/gitnotebooks/self-hosted:1.3.5 \
+  docker://registry.example.com/gitnotebooks/self-hosted:1.3.5-amd64
+</code></pre>
 </div>
 <h2 id="choosing-an-endpoint"><a class="header" href="#choosing-an-endpoint">Choosing an Endpoint</a></h2>
 <p>The GitNotebooks web application needs to be accessible via a URL. This URL will be referred to as the <code>BASE_URL</code> throughout the setup process. You'll need to decide on this <code>BASE_URL</code> before proceeding.</p>
