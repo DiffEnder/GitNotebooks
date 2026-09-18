@@ -10,6 +10,7 @@ The tutorial is divided into several sections:
 - [Creating a GitHub App](#creating-a-github-app)
 - [Creating a Database](#creating-a-database)
 - [Reviewing the Environment Variables](#reviewing-environment-variables)
+- [Restricting repositories to one organization](#restricting-repositories-to-one-organization)
 - [Deploy container](#deploy-container)
 
 The goal is to create a set of environment variables that look like this:
@@ -34,7 +35,7 @@ In this tutorial, we'll denote environment variables with this notation: `SOME_E
 Once the environment variables are set correctly, you can run the GitNotebooks container. Here's an example using Docker:
 
 ```bash
-docker run -p 80:3000 --env-file .env gitnotebooks/self-hosted:1.0.0
+docker run -p 80:3000 --env-file .env gitnotebooks/self-hosted:1.3.9
 ```
 
 ### Prerequisites
@@ -195,6 +196,33 @@ ENTERPRISE=true
 ```
 
 You are now ready to deploy GitNotebooks Self-Hosted.
+
+## Restricting repositories to one organization { #restricting-repositories-to-one-organization }
+
+Starting with `gitnotebooks/self-hosted:1.3.9`, you can optionally restrict repository views to one GitHub organization by setting this environment variable on the running container:
+
+```bash
+GITHUB_ALLOWED_ORG=example-test-org
+```
+
+Use the organization login from its GitHub URL, not its display name or the full URL. For example, `https://github.com/example-test-org` has the login `example-test-org`. This setting also works with the GitHub Enterprise Server configured by `GITHUB_BASE_URL`.
+
+- **Default:** If the variable is unset, empty, or whitespace-only, existing behavior is unchanged. Repositories remain accessible according to the user's existing GitHub permissions and the application's existing public-repository behavior.
+- **When configured:** Repository pages (including pull requests, commit comparisons, files, trees, settings, and schedules) and their repository-scoped API endpoints return **404** for other owners, including for signed-in users. Existing chats for other owners are unavailable, and repository webhooks for other owners are ignored.
+- **Matching:** The entire repository owner login must match. Matching is case-insensitive; surrounding whitespace in the environment value is ignored. Specify exactly one login. URLs, wildcards, and comma-separated lists are not supported; malformed non-empty values block repository access rather than disable the restriction.
+- **Permissions:** This setting adds a restriction; it does not grant access to private repositories, change GitHub token permissions, or require login for otherwise public repositories in the allowed organization. It matches the repository owner login, so administrators must configure the intended organization login.
+- **Forks:** A pull request targeting a repository in the allowed organization remains accessible even when its source branch comes from an outside fork. Opening the outside fork's own repository or pull request page is blocked.
+
+Add the variable to your existing environment file or container configuration, then recreate/redeploy the container. No image rebuild is needed. For example, keeping your existing database and other required environment settings:
+
+```bash
+docker pull gitnotebooks/self-hosted:1.3.9
+docker run -p 80:3000 --env-file .env gitnotebooks/self-hosted:1.3.9
+```
+
+After deployment, verify that an authorized repository page under `example-test-org` loads and a repository page under another owner returns 404. To remove the restriction, unset the variable and recreate/redeploy the container.
+
+This is an access-scope restriction, not a fix for unsafe notebook rendering. Content in allowed repositories, including fork contributions, must still be treated as untrusted. Keep the network access restrictions described below in place.
 
 ## Deploying the GitNotebooks Container { #deploy-container }
 

@@ -2,6 +2,14 @@
 
 ---
 
+## gitnotebooks/self-hosted:1.3.9
+
+- Added optional `GITHUB_ALLOWED_ORG` runtime configuration to restrict repository views and repository-scoped APIs to one GitHub organization. Existing behavior is unchanged when unset.
+- See [organization restriction configuration](./self_hosted.md#restricting-repositories-to-one-organization) for setup, matching rules, and fork behavior.
+- This restriction reduces access scope; it does not remediate unsafe notebook rendering.
+
+---
+
 ## gitnotebooks/self-hosted:1.3.1
 
 - **Bug Fixes**
