@@ -2,7 +2,7 @@
 
 ---
 
-## gitnotebooks/self-hosted:1.3.10
+## gitnotebooks/self-hosted:1.3.11
 
 - Added optional `GITHUB_ALLOWED_ORG` runtime configuration to restrict repository views and repository-scoped APIs to one GitHub organization. Existing behavior is unchanged when unset.
 - Build-time package credentials are supplied through temporary BuildKit secrets rather than Docker build arguments.

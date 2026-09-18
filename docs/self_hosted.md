@@ -35,7 +35,7 @@ In this tutorial, we'll denote environment variables with this notation: `SOME_E
 Once the environment variables are set correctly, you can run the GitNotebooks container. Here's an example using Docker:
 
 ```bash
-docker run -p 80:3000 --env-file .env gitnotebooks/self-hosted:1.3.10
+docker run -p 80:3000 --env-file .env gitnotebooks/self-hosted:1.3.11
 ```
 
 ### Prerequisites
@@ -199,7 +199,7 @@ You are now ready to deploy GitNotebooks Self-Hosted.
 
 ## Restricting repositories to one organization { #restricting-repositories-to-one-organization }
 
-Starting with `gitnotebooks/self-hosted:1.3.10`, you can optionally restrict repository views to one GitHub organization by setting this environment variable on the running container:
+Starting with `gitnotebooks/self-hosted:1.3.11`, you can optionally restrict repository views to one GitHub organization by setting this environment variable on the running container:
 
 ```bash
 GITHUB_ALLOWED_ORG=example-test-org
@@ -216,8 +216,8 @@ Use the organization login from its GitHub URL, not its display name or the full
 Add the variable to your existing environment file or container configuration, then recreate/redeploy the container. No image rebuild is needed. For example, keeping your existing database and other required environment settings:
 
 ```bash
-docker pull gitnotebooks/self-hosted:1.3.10
-docker run -p 80:3000 --env-file .env gitnotebooks/self-hosted:1.3.10
+docker pull gitnotebooks/self-hosted:1.3.11
+docker run -p 80:3000 --env-file .env gitnotebooks/self-hosted:1.3.11
 ```
 
 After deployment, verify that an authorized repository page under `example-test-org` loads and a repository page under another owner returns 404. To remove the restriction, unset the variable and recreate/redeploy the container.
